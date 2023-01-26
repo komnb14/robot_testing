@@ -1,9 +1,18 @@
-import type {LoaderArgs, MetaFunction} from "@remix-run/cloudflare";
+import type {LinksFunction, LoaderArgs, MetaFunction} from "@remix-run/cloudflare";
 import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData,} from "@remix-run/react";
 import i18next from "~/i18n.server";
 import {json} from "@remix-run/router";
 import {useTranslation} from "react-i18next";
-import {useEffect} from "react";
+
+
+export const links: LinksFunction = () => {
+    return [
+        {rel: 'canonical', href: 'https://robot-testing.pages.dev'},
+        { rel: "alternate", hrefLang:'en', href: `https://robot-testing.pages.dev/?hl=en`},
+        { rel: "alternate", hrefLang:'ko', href: `https://robot-testing.pages.dev/?hl=ko`},
+        { rel: "alternate", hrefLang:'x-default', href: `https://robot-testing.pages.dev`},
+    ];
+};
 
 export const handle = {
     i18n: "common",
@@ -32,7 +41,6 @@ export const meta: MetaFunction = ({data}) => {
 export default function App() {
     const {i18n} = useTranslation();
     let {title} = useLoaderData<typeof loader>();
-
 
 
 
