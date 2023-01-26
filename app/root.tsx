@@ -25,7 +25,7 @@ export const meta: MetaFunction = ({data}) => {
     return {
         charset: "utf-8",
         viewport: "width=device-width,initial-scale=1",
-        title: "??????????",
+        title: data.title,
     }
 };
 
