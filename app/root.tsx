@@ -29,13 +29,18 @@ export async function loader({request}: LoaderArgs) {
     console.log(testData);
 
     const url = request.url;
-    return json({url});
+    return json({url,testData},{
+        headers: {
+            "Cache-Control": 'public, max-age=300, s-maxage=3600, stale-while-revalidate=300',
+        }
+    });
 }
 
 
-export const headers = () => {
+export const headers = ({loaderHeaders} : {loaderHeaders: Headers}) => {
+    console.log(loaderHeaders.get('Cache-Control'))
     return {
-        "Cache-Control": 'public, max-age=300, s-maxage=3600, stale-while-revalidate=300',
+        "Cache-Control": loaderHeaders.get('Cache-Control'),
     }
 }
 
@@ -49,7 +54,7 @@ export const meta: MetaFunction = ({data}) => {
 
 export default function App() {
     const {i18n, t} = useTranslation();
-    let {url} = useLoaderData<typeof loader>();
+    let {url,} = useLoaderData<typeof loader>();
 
 
     return (
