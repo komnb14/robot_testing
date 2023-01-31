@@ -26,7 +26,7 @@ export const getUrlHLParams = (url: string) => {
 
 export async function loader({request}: LoaderArgs) {
     const testData = await fetch(DDRAGON_CHAMPION_URL);
-    console.log(testData);
+    const test2 = await fetch("https://lol-item.deeplol-gg.workers.dev/?version=13.1&lang=ko_KR");
 
     const url = request.url;
     return json({url,testData},{
