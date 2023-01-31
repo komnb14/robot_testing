@@ -1,16 +1,16 @@
 import type {LinksFunction, LoaderArgs, MetaFunction} from "@remix-run/cloudflare";
 import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData,} from "@remix-run/react";
-import i18next from "~/i18n.server";
 import {json} from "@remix-run/router";
 import {useTranslation} from "react-i18next";
 
+const DDRAGON_CHAMPION_URL = 'https://ddragon.leagueoflegends.com/cdn/13.1.1/data/ko_KR/champion.json';
 
 // @ts-ignore
 export const links: LinksFunction = () => {
     return [
-        { rel: "alternate", hrefLang:'en', href: `https://robot-testing.pages.dev/?hl=en`},
-        { rel: "alternate", hrefLang:'ko', href: `https://robot-testing.pages.dev/?hl=ko`},
-        { rel: "alternate", hrefLang:'x-default', href: `https://robot-testing.pages.dev`},
+        {rel: "alternate", hrefLang: 'en', href: `https://robot-testing.pages.dev/?hl=en`},
+        {rel: "alternate", hrefLang: 'ko', href: `https://robot-testing.pagbes.dev/?hl=ko`},
+        {rel: "alternate", hrefLang: 'x-default', href: `https://robot-testing.pages.dev`},
     ];
 };
 
@@ -25,29 +25,37 @@ export const getUrlHLParams = (url: string) => {
 }
 
 export async function loader({request}: LoaderArgs) {
-    const t = await i18next.getFixedT(request, 'common')
-    const title = t('header');
+    const testData = await fetch(DDRAGON_CHAMPION_URL);
+    console.log(testData);
+
     const url = request.url;
-    return json({ title,url});
+    return json({url});
+}
+
+
+export const headers = () => {
+    return {
+        "Cache-Control": 'public, max-age=300, s-maxage=3600, stale-while-revalidate=300',
+    }
 }
 
 export const meta: MetaFunction = ({data}) => {
     return {
         charset: "utf-8",
         viewport: "width=device-width,initial-scale=1",
-        title: data.title,
+
     }
 };
 
 export default function App() {
-    const {i18n} = useTranslation();
+    const {i18n, t} = useTranslation();
     let {url} = useLoaderData<typeof loader>();
-
 
 
     return (
         <html lang={i18n.language}>
         <head>
+            <title>{t("header")}</title>
             <meta httpEquiv="content-language" content={i18n.language}/>
             <Meta/>
             <link rel={'canonical'} href={`${url}`}/>
