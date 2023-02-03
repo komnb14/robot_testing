@@ -26,19 +26,19 @@ export const getUrlHLParams = (url: string) => {
 
 export async function loader({request}: LoaderArgs) {
     const testData = await fetch(DDRAGON_CHAMPION_URL);
-    const test2 = await fetch("https://lol-item.deeplol-gg.workers.dev/?version=13.1&lang=ko_KR");
 
     const url = request.url;
     return json({url,testData},{
+        status:200,
         headers: {
-            "Cache-Control": 'public, max-age=300, s-maxage=3600, stale-while-revalidate=300',
+            "Cache-Control": "s-maxage=300",
         }
     });
 }
 
 
 export const headers = ({loaderHeaders} : {loaderHeaders: Headers}) => {
-    console.log(loaderHeaders.get('Cache-Control'))
+
     return {
         "Cache-Control": loaderHeaders.get('Cache-Control'),
     }
