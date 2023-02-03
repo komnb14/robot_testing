@@ -54,7 +54,7 @@ export const meta: MetaFunction = ({data}) => {
 
 export default function App() {
     const {i18n, t} = useTranslation();
-    let {url,} = useLoaderData<typeof loader>();
+    let {url} = useLoaderData<typeof loader>();
 
 
     return (

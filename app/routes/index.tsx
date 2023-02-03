@@ -17,7 +17,7 @@ export async function loader({context}: LoaderArgs) {
 
 
 export default function Index() {
-    let {} = useLoaderData<typeof loader>();
+    let {kv} = useLoaderData<typeof loader>();
     const {t, i18n} = useTranslation();
 
 
@@ -31,6 +31,7 @@ export default function Index() {
 
     return (
         <div>
+            {kv}
             <div>{t("greeting")}</div>
             <div>asdasdadadzxczxczxczxczxcz</div>
             <button onClick={onClickButton}>{t("button")}</button>
